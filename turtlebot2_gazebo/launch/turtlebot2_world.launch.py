@@ -114,7 +114,7 @@ def generate_launch_description():
             "turtlebot2",
             "-topic",
             # TODO - branie namespace z launch configuration
-            ("/tb2_5/robot_description"),
+            ("/robot_description"),
             "-x",
             "0",
             "-y",
@@ -142,7 +142,7 @@ def generate_launch_description():
 
         DeclareLaunchArgument(
             'namespace',
-            default_value='tb2_5',
+            default_value='',
             description='Top-level namespace'),
 
         DeclareLaunchArgument(
