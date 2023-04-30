@@ -80,12 +80,12 @@ def generate_launch_description():
         )
     )
 
-    spawn_tb2_5 = IncludeLaunchDescription(
+    spawn_tb2 = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
             os.path.join(turtlebot2_gazebo_package, "launch",
                          "turtlebot2_spawn_robot.launch.py")
         ),
-        launch_arguments={'namespace': namespace}.items()
+        launch_arguments={'namespace': namespace, 'use_namespace': use_namespace}.items()
     )
 
     # spawn_tb2_6 = IncludeLaunchDescription(
@@ -110,12 +110,12 @@ def generate_launch_description():
 
         DeclareLaunchArgument(
             'use_namespace',
-            default_value='true',
+            default_value='false',
             description='Whether to apply a namespace to the navigation stack'),
 
     ])
 
     ld.add_action(gazebo)
-    ld.add_action(spawn_tb2_5)
+    ld.add_action(spawn_tb2)
 
     return ld

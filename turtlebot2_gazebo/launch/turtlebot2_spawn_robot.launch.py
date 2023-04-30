@@ -4,6 +4,7 @@ from textwrap import indent
 
 from ament_index_python.packages import get_package_share_directory, get_package_prefix
 from launch import LaunchDescription
+from launch_ros.descriptions import ParameterValue
 from launch.actions import DeclareLaunchArgument, ExecuteProcess
 from launch.substitutions import LaunchConfiguration, PythonExpression, Command, TextSubstitution
 from launch_ros.actions import Node
@@ -45,6 +46,8 @@ def generate_launch_description():
     use_namespace = LaunchConfiguration('use_namespace')
     use_sim_time = LaunchConfiguration('use_sim_time', default='true')
     x_pose = LaunchConfiguration('x_pose')
+    namespace_prefix = LaunchConfiguration('namespace_prefix', default = "/" if use_namespace else "")
+    spawn_topic = LaunchConfiguration('spawn_topic', default=[namespace_prefix, namespace])
 
     turtlebot2_description_package = FindPackageShare(
         package="turtlebot2_description").find("turtlebot2_description")
@@ -95,6 +98,7 @@ def generate_launch_description():
 
     print("GAZEBO MODELS PATH==" + str(os.environ["GAZEBO_MODEL_PATH"]))
     print("GAZEBO PLUGINS PATH==" + str(os.environ["GAZEBO_PLUGIN_PATH"]))
+    print("TOPIC PREFIX==" + str(ParameterValue(spawn_topic, value_type=str)))
 
     return LaunchDescription([
         DeclareLaunchArgument(
@@ -104,13 +108,14 @@ def generate_launch_description():
 
         DeclareLaunchArgument(
             'use_namespace',
-            default_value='true',
+            default_value='false',
             description='Whether to apply a namespace to the navigation stack'),
 
         DeclareLaunchArgument(
             'use_sim_time',
             default_value='true',
             description='Whether to use Gazebo clock'),
+        
         DeclareLaunchArgument(
             'x_pose',
             default_value='0',
@@ -127,9 +132,9 @@ def generate_launch_description():
             output="screen",
             arguments=[
                 "-entity",
-                (namespace,"_robot"),
+                (namespace, "_robot"),
                 "-topic",
-                ("/", namespace, "/robot_description"),
+                ("/robot_description"),
                 "-x",
                 x_pose,
                 "-y",
