@@ -12,6 +12,6 @@
   <xacro:kobuki />
   <xacro:stack_hexagons parent="base_link" />
   <xacro:scanse prefix="scanse" prefix_topic="" parent="base_link" >
-   <origin xyz="0 0 0.33" rpy="3.1415 0 2.1"/>
+   <origin xyz="0 0 0.39" rpy="3.1415 0 2.1"/>
   </xacro:scanse>
 </robot>
