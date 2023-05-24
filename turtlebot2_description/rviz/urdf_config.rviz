@@ -229,8 +229,6 @@ Visualization Manager:
           Value: true
         gyro_link:
           Value: true
-        odom:
-          Value: true
         plate_bottom_link:
           Value: true
         plate_middle_link:
@@ -275,72 +273,71 @@ Visualization Manager:
           Value: true
         wheel_right_link:
           Value: true
-      Marker Scale: 0.30000001192092896
+      Marker Scale: 0.20000000298023224
       Name: TF
       Show Arrows: true
       Show Axes: true
       Show Names: true
       Tree:
-        odom:
-          base_footprint:
-            base_link:
-              caster_back_link:
+        base_footprint:
+          base_link:
+            caster_back_link:
+              {}
+            caster_front_link:
+              {}
+            cliff_sensor_front_link:
+              {}
+            cliff_sensor_left_link:
+              {}
+            cliff_sensor_right_link:
+              {}
+            gyro_link:
+              {}
+            plate_bottom_link:
+              {}
+            plate_middle_link:
+              {}
+            plate_top_link:
+              {}
+            pole_bottom_0_link:
+              {}
+            pole_bottom_1_link:
+              {}
+            pole_bottom_2_link:
+              {}
+            pole_bottom_3_link:
+              {}
+            pole_bottom_4_link:
+              {}
+            pole_bottom_5_link:
+              {}
+            pole_kinect_0_link:
+              {}
+            pole_kinect_1_link:
+              {}
+            pole_middle_0_link:
+              {}
+            pole_middle_1_link:
+              {}
+            pole_middle_2_link:
+              {}
+            pole_middle_3_link:
+              {}
+            pole_top_0_link:
+              {}
+            pole_top_1_link:
+              {}
+            pole_top_2_link:
+              {}
+            pole_top_3_link:
+              {}
+            scanse_base_link:
+              base_scan:
                 {}
-              caster_front_link:
-                {}
-              cliff_sensor_front_link:
-                {}
-              cliff_sensor_left_link:
-                {}
-              cliff_sensor_right_link:
-                {}
-              gyro_link:
-                {}
-              plate_bottom_link:
-                {}
-              plate_middle_link:
-                {}
-              plate_top_link:
-                {}
-              pole_bottom_0_link:
-                {}
-              pole_bottom_1_link:
-                {}
-              pole_bottom_2_link:
-                {}
-              pole_bottom_3_link:
-                {}
-              pole_bottom_4_link:
-                {}
-              pole_bottom_5_link:
-                {}
-              pole_kinect_0_link:
-                {}
-              pole_kinect_1_link:
-                {}
-              pole_middle_0_link:
-                {}
-              pole_middle_1_link:
-                {}
-              pole_middle_2_link:
-                {}
-              pole_middle_3_link:
-                {}
-              pole_top_0_link:
-                {}
-              pole_top_1_link:
-                {}
-              pole_top_2_link:
-                {}
-              pole_top_3_link:
-                {}
-              scanse_base_link:
-                base_scan:
-                  {}
-              wheel_left_link:
-                {}
-              wheel_right_link:
-                {}
+            wheel_left_link:
+              {}
+            wheel_right_link:
+              {}
       Update Interval: 0
       Value: true
     - Alpha: 1
@@ -398,7 +395,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 3.973719835281372
+      Distance: 1.4290869235992432
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -413,10 +410,10 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 1.5697963237762451
+      Pitch: 0.37979626655578613
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 3.140397548675537
+      Yaw: 0.6672098636627197
     Saved: ~
 Window Geometry:
   Displays:
