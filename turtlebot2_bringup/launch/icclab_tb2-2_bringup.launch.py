@@ -4,12 +4,13 @@ from struct import pack
 from setuptools import Command
 
 from ament_index_python import get_package_share_directory, get_package_share_path
-
+from launch_ros.actions import Node
 import launch
 import launch.launch_description_sources
 import launch.substitutions
 import launch_ros
 import launch_ros.substitutions
+import yaml
 
 def generate_launch_description():
     kobuki_package = get_package_share_directory('kobuki_node')
@@ -19,15 +20,18 @@ def generate_launch_description():
 
     ekf_config_params = os.path.join(turtlebot2_bringup_package,'config/ekf_config.yaml')
 
-    kobuki_node_launch = launch.actions.IncludeLaunchDescription(
-        launch.launch_description_sources.PythonLaunchDescriptionSource(
-            os.path.join(
-                kobuki_package,
-                'launch/kobuki_node-launch.py')
+    params_file = os.path.join(turtlebot2_bringup_package, 'config', 'kobuki_node_params.yaml')
+    with open(params_file, 'r') as f:
+        params = yaml.safe_load(f)['kobuki_ros_node']['ros__parameters']
+    kobuki_node_launch =  Node(
+            package='kobuki_node',
+            executable='kobuki_ros_node',
+            #namespace=namespace,
+            parameters=[params],
+            remappings=[('commands/velocity','cmd_vel'),('/tf','tf'),('/tf_static','tf_static')]
         )
-    )
 
-    ekf_node = launch_ros.actions.Node(
+    ekf_node = Node(
             package='robot_localization',
             executable='ekf_node',
             output='screen',
@@ -42,7 +46,7 @@ def generate_launch_description():
                 'launch/hlds_laser.launch.py'
             )
         ),
-        launch_arguments= {'port':'/dev/ttyUSB1',
+        launch_arguments= {'port':'/dev/lidar',
                            'frame_id': 'base_scan'}.items()
     )
 

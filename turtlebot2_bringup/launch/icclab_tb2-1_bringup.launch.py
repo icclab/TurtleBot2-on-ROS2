@@ -42,7 +42,7 @@ def generate_launch_description():
                 'launch/sllidar_s1_launch.py'
             )
         ),
-        launch_arguments= {'serial_port':'/dev/ttyUSB1',
+        launch_arguments= {'serial_port':'/dev/lidar',
                            'frame_id': 'base_scan'}.items()
     )
 
