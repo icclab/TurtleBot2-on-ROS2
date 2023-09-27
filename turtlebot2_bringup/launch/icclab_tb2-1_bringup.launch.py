@@ -4,30 +4,34 @@ from struct import pack
 from setuptools import Command
 
 from ament_index_python import get_package_share_directory, get_package_share_path
-
+from launch_ros.actions import Node
 import launch
 import launch.launch_description_sources
 import launch.substitutions
 import launch_ros
 import launch_ros.substitutions
+import yaml
 
 def generate_launch_description():
-    kobuki_package = launch_ros.substitutions.FindPackageShare(package='kobuki_node').find('kobuki_node')
-    lidar_package = launch_ros.substitutions.FindPackageShare(package='sllidar_ros2').find('sllidar_ros2')
-    turtlebot2_bringup_package = launch_ros.substitutions.FindPackageShare(package='turtlebot2_bringup').find('turtlebot2_bringup')
-    turtlebot_description_package = launch_ros.substitutions.FindPackageShare(package='turtlebot2_description').find('turtlebot2_description')
+    kobuki_package = get_package_share_directory('kobuki_node')
+    lidar_package = get_package_share_directory('sllidar_ros2')
+    turtlebot2_bringup_package = get_package_share_directory('turtlebot2_bringup')
+    turtlebot_description_package = get_package_share_directory('turtlebot2_description')
 
     ekf_config_params = os.path.join(turtlebot2_bringup_package,'config/ekf_config.yaml')
 
-    kobuki_node_launch = launch.actions.IncludeLaunchDescription(
-        launch.launch_description_sources.PythonLaunchDescriptionSource(
-            os.path.join(
-                kobuki_package,
-                'launch/kobuki_node-launch.py')
+    params_file = os.path.join(turtlebot2_bringup_package, 'config', 'kobuki_node_params.yaml')
+    with open(params_file, 'r') as f:
+        params = yaml.safe_load(f)['kobuki_ros_node']['ros__parameters']
+    kobuki_node_launch =  Node(
+            package='kobuki_node',
+            executable='kobuki_ros_node',
+            #namespace=namespace,
+            parameters=[params],
+            remappings=[('commands/velocity','cmd_vel'),('/tf','tf'),('/tf_static','tf_static')]
         )
-    )
 
-    ekf_node = launch_ros.actions.Node(
+    ekf_node = Node(
             package='robot_localization',
             executable='ekf_node',
             output='screen',
@@ -80,3 +84,4 @@ def generate_launch_description():
         # rviz_node,
         # ekf_node
     ])
+
