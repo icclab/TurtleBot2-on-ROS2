@@ -1,16 +1,15 @@
-# turtlebot2
+# turtlebot2 on ROS2 at ICCLab
 
-## Initial setup
+### Start the base + navigation
 
-Udev rules device links are not preserved in the docker container, so you will have to set them up yourself
+	ros2 launch turtlebot2_bringup icclab_tb2-2_bringup.launch.py (or tb2-1, which has a different laser scanner)
+	ros2 launch turtlebot2_nav icclab_tb2_nav2.launch.py
 
-    sudo chown ros:ros /dev/ttyUSB0
-    sudo chown ros:ros /dev/ttyUSB1
+### Start the camera streaming
 
-    sudo ln -s /dev/ttyUSB0 /dev/kobuki
-    sudo ln -s /dev/ttyUSB1 /dev/lidar
+	ros2 launch turtlebot2_bringup astra_icclab.launch.py
 
-Or:
+### Enable image transport compression
 
-    sudo ln -s /dev/ttyUSB1 /dev/kobuki
-    sudo ln -s /dev/ttyUSB0 /dev/lidar
+	ros2 run image_transport republish raw compressed --ros-args --remap in:=/camera/color/image_raw --remap out/compressed:=/camera/color/image/compressed
+	ros2 run image_transport republish raw compressedDepth --ros-args --remap in:=/camera/depth/image_raw --remap out/compressedDepth:=/camera/depth/image/compressedDepth
