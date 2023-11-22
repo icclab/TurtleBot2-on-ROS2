@@ -22,7 +22,7 @@ def generate_launch_description():
         launch.launch_description_sources.PythonLaunchDescriptionSource(
             os.path.join(
                 turtlebot2_bringup_package,
-                'launch/icclab_tb2-1_bringup.launch.py'
+                'launch/icclab_tb2_bringup.launch.py'
             )
         ),
     )
