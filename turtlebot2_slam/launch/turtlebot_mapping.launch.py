@@ -13,12 +13,23 @@ import launch_ros
 import launch_ros.substitutions
 
 def generate_launch_description():
-    kobuki_package = launch_ros.substitutions.FindPackageShare(package='kobuki_node').find('kobuki_node')
-    urg_package = launch_ros.substitutions.FindPackageShare(package='urg_node').find('urg_node')
-    turtlebot2_description_package = launch_ros.substitutions.FindPackageShare(package='turtlebot2_description').find('turtlebot2_description')
+    kobuki_package = get_package_share_directory('kobuki_node')
+    lidar_package = get_package_share_directory('sllidar_ros2')
+    turtlebot2_bringup_package = get_package_share_directory('turtlebot2_bringup')
+    turtlebot2_description_package = get_package_share_directory('turtlebot2_description')
+
+    ekf_config_params = os.path.join(turtlebot2_bringup_package,'config/ekf_config.yaml')
+
+
+
+
+#    kobuki_package = launch_ros.substitutions.FindPackageShare(package='kobuki_node').find('kobuki_node')
+#    urg_package = launch_ros.substitutions.FindPackageShare(package='urg_node').find('urg_node')
+#    lidar_package = get_package_share_directory('sllidar_ros2')
+ #   turtlebot2_description_package = launch_ros.substitutions.FindPackageShare(package='turtlebot2_description').find('turtlebot2_description')
     turtlebot2_slam_package = launch_ros.substitutions.FindPackageShare(package='turtlebot2_slam').find('turtlebot2_slam')
-    turtlebot2_bringup_package = launch_ros.substitutions.FindPackageShare(package='turtlebot2_bringup').find('turtlebot2_bringup')
-    slam_toolbox_package = launch_ros.substitutions.FindPackageShare(package='slam_toolbox').find('slam_toolbox')
+  #  turtlebot2_bringup_package = launch_ros.substitutions.FindPackageShare(package='turtlebot2_bringup').find('turtlebot2_bringup')
+#    slam_toolbox_package = launch_ros.substitutions.FindPackageShare(package='slam_toolbox').find('slam_toolbox')
 
     
     ekf_config_params = os.path.join(turtlebot2_bringup_package,'config/ekf_config.yaml')
@@ -39,6 +50,17 @@ def generate_launch_description():
     #         # ,
     #         # remappings=[("odometry/filtered", "odom")]
     #     )
+    
+    lidar_node = launch.actions.IncludeLaunchDescription(
+        launch.launch_description_sources.PythonLaunchDescriptionSource(
+            os.path.join(
+                lidar_package,
+                'launch/sllidar_s1_launch.py'
+            )
+        ),
+        launch_arguments= {'serial_port':'/dev/lidar',
+                           'frame_id': 'base_scan'}.items()
+    )
     kobuki_node_dir = get_package_share_directory('kobuki_node')
 
     params_file = os.path.join(kobuki_package, 'config', 'kobuki_node_params.yaml')
@@ -116,14 +138,15 @@ def generate_launch_description():
         joint_state_publisher_node,
         # rviz_node,
         mapping_launch,
-        launch_ros.actions.Node(
-           package='urg_node',
-           executable='urg_node_driver',
-           output='screen',
+        lidar_node,
+   #     launch_ros.actions.Node(
+   #        package='urg_node',
+   #        executable='urg_node_driver',
+   #        output='screen',
         #    namespace=namespace,
-           parameters=[{"ip_adress":"192.168.0.10"},{"ip_port":10940},{"serial_baud":115200},{"angle_max":1.56},{"angle_min":-1.56}],
-           remappings=[('/tf','tf'),('/tf_static','tf_static'),('/scan','scan')]
-        ),
+  #         parameters=[{"ip_adress":"192.168.0.10"},{"ip_port":10940},{"serial_baud":115200},{"angle_max":1.56},{"angle_min":-1.56}],
+ #          remappings=[('/tf','tf'),('/tf_static','tf_static'),('/scan','scan')]
+#        ),
         launch_ros.actions.Node(
             package='kobuki_node',
             executable='kobuki_ros_node',
