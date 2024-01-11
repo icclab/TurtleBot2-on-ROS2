@@ -29,7 +29,7 @@ def generate_launch_description():
  #   turtlebot2_description_package = launch_ros.substitutions.FindPackageShare(package='turtlebot2_description').find('turtlebot2_description')
     turtlebot2_slam_package = launch_ros.substitutions.FindPackageShare(package='turtlebot2_slam').find('turtlebot2_slam')
   #  turtlebot2_bringup_package = launch_ros.substitutions.FindPackageShare(package='turtlebot2_bringup').find('turtlebot2_bringup')
-#    slam_toolbox_package = launch_ros.substitutions.FindPackageShare(package='slam_toolbox').find('slam_toolbox')
+     slam_toolbox_package = launch_ros.substitutions.FindPackageShare(package='slam_toolbox').find('slam_toolbox')
 
     
     ekf_config_params = os.path.join(turtlebot2_bringup_package,'config/ekf_config.yaml')
