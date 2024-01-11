@@ -124,7 +124,7 @@ def generate_launch_description():
     )
 
     # kobuki_node_dir = get_package_share_directory('kobuki_node')
-    urg_node_dir = get_package_share_directory('urg_node')
+    #urg_node_dir = get_package_share_directory('urg_node')
 
     return launch.LaunchDescription([
         launch.actions.DeclareLaunchArgument(
