@@ -98,7 +98,7 @@ def generate_launch_description():
     robot_state_publisher_node = launch_ros.actions.Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
-        parameters=[{'robot_description': launch.substitutions.Command(['xacro ',os.path.join(turtlebot2_description_package,'robots/kobuki_hexagons_hokuyo.urdf.xacro')])}]
+        parameters=[{'robot_description': launch.substitutions.Command(['xacro ',os.path.join(turtlebot2_description_package,'robots/icclab_tb2-1_urdf.xacro')])}]
     )
 
     joint_state_publisher_node = launch_ros.actions.Node(
