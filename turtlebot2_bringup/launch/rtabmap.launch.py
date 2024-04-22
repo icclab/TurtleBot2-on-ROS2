@@ -1,14 +1,19 @@
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription
+from launch.actions import IncludeLaunchDescription, GroupAction
 from launch_ros.substitutions import FindPackageShare
 from launch.substitutions import PathJoinSubstitution
+from launch_ros.actions import SetRemap
 
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 
 
 def generate_launch_description():
 
-    return LaunchDescription([
+    group = GroupAction(
+    actions=[
+
+        SetRemap(src='map',dst='/map'),
+
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource([
                 PathJoinSubstitution([
@@ -30,7 +35,10 @@ def generate_launch_description():
                 'odom_topic': '/odom',
                 'qos': '2',
                 'args': "-d --RGBD/NeighborLinkRefining true --Reg/Strategy 1",
-                'use_sim_time': 'true'
-            }.items()
+                'use_sim_time': 'false',
+            }.items()    
         )
+
     ])
+
+    return LaunchDescription([group])
